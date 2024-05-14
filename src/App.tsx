@@ -6,6 +6,9 @@ import {
   WithAuthenticatorProps,
 } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
+import { getUser } from "./auth";
+import { getUserFragments } from "./api";
+import { useEffect } from "react";
 
 Amplify.configure({
   Auth: {
@@ -37,11 +40,24 @@ interface Props extends WithAuthenticatorProps {
   isPassedToWithAuthenticator: boolean;
 }
 
-function App({ isPassedToWithAuthenticator, signOut, user }: Props) {
+function App({ isPassedToWithAuthenticator, signOut,user }: Props) {
   if (!isPassedToWithAuthenticator) {
     throw new Error(`isPassedToWithAuthenticator was not provided`);
   }
 
+
+  useEffect(() => {
+    async function fetchData() {
+      const user = await getUser();
+      if (user) {
+        const userFragments = await getUserFragments(user);
+        console.log(userFragments);
+      }
+    }
+
+    fetchData();
+  }, []);
+  
   return (
     <>
       <h1>Hello {user?.username}</h1>
