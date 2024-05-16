@@ -20,19 +20,7 @@ Amplify.configure({
     // Amazon Cognito App Client ID (26-char alphanumeric string)
     userPoolWebClientId: import.meta.env.VITE_AWS_COGNITO_CLIENT_ID,
 
-    // Hosted UI configuration
-    oauth: {
-      // Amazon Hosted UI Domain
-      domain: import.meta.env.VITE_AWS_COGNITO_HOSTED_UI_DOMAIN,
-
-      scope: ["email", "phone", "openid"],
-
-      redirectSignIn: import.meta.env.VITE_OAUTH_SIGN_IN_REDIRECT_URL,
-      redirectSignOut: import.meta.env.VITE_OAUTH_SIGN_OUT_REDIRECT_URL,
-
-      // We're using the Access Code Grant flow (i.e., `code`)
-      responseType: "code",
-    },
+   
   },
 });
 
