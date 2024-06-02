@@ -9,6 +9,7 @@ import "@aws-amplify/ui-react/styles.css";
 import { getUser } from "./auth";
 import { getUserFragments } from "./api";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 Amplify.configure({
   Auth: {
@@ -50,6 +51,11 @@ function App({ isPassedToWithAuthenticator, signOut,user }: Props) {
     <>
       <h1>Hello {user?.username}</h1>
       <button onClick={signOut}>Sign out</button>
+
+      <hr />
+      <button><Link to="/addfragment">Add Fragment</Link></button>
+
+
     </>
   );
 }
