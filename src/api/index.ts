@@ -12,7 +12,7 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8081";
 export async function getUserFragments(user: User) {
   console.log("Requesting user fragments data...");
   try {
-    const res = await fetch(`${apiUrl}/v1/fragments`, {
+    const res = await fetch(`${apiUrl}/v1/fragments/?expand=0`, {
       // Generate headers with the proper Authorization bearer token to pass.
       // We are using the `authorizationHeaders()` helper method we defined
       // earlier, to automatically attach the user's ID token.
@@ -39,7 +39,16 @@ export async function postUserFragment(user: User, text: string) {
       },
       body: text,
     });
-    console.log(await res.json());
+    console.log(res);
+    for (const pair of res.headers.entries()) {
+      // accessing the entries
+      console.log(pair);
+    }
+    const l=res.headers.get('Location');
+    console.log({l});
+
+    const resp = await res.json();
+    return resp;
   } catch (error) {
     console.error("Unable to call Post v1/fragments", { error });
   }

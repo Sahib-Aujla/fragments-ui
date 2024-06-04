@@ -13,7 +13,7 @@ const AddFragment = () => {
     const user = await getUser();
     if (user) {
       const res = await postUserFragment(user,text);
-      console.log(res);
+      console.log({res});
       toast.success("Success Notification!", {
         position: "top-right",
       });
