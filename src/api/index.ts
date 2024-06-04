@@ -29,15 +29,15 @@ export async function getUserFragments(user: User) {
   }
 }
 
-export async function postUserFragment(user: User) {
+export async function postUserFragment(user: User, text: string) {
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       method: "POST",
       headers: {
-        ...user.authorizationHeaders(), // Spread the authorization headers
-        'Content-Type': 'text/plain' // Set the content type to JSON
+        ...user.authorizationHeaders(),
+        "Content-Type": "text/plain",
       },
-      body:'Hello kida jatta'
+      body: text,
     });
     console.log(await res.json());
   } catch (error) {

@@ -29,6 +29,7 @@ interface Props extends WithAuthenticatorProps {
   isPassedToWithAuthenticator: boolean;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 function App({ isPassedToWithAuthenticator, signOut,user }: Props) {
   if (!isPassedToWithAuthenticator) {
     throw new Error(`isPassedToWithAuthenticator was not provided`);
