@@ -14,13 +14,10 @@ export async function getUserFragments(user: User) {
   console.log('Requesting user fragments data...');
   try {
     const res = await fetch(`${apiUrl}/v1/fragments/?expand=0`, {
-      // Generate headers with the proper Authorization bearer token to pass.
-      // We are using the `authorizationHeaders()` helper method we defined
-      // earlier, to automatically attach the user's ID token.
       headers: user.authorizationHeaders(),
     });
     if (!res.ok) {
-      throw new Error(`${res.status} ${res.statusText}`);
+      throw new Error(`${res.status} with ${res.statusText}`);
     }
     const data = await res.json();
     console.log('Successfully got user fragments data', { data });
@@ -33,13 +30,10 @@ export async function getUserFragments(user: User) {
 export async function getOneFragment(user: User, id: string) {
   try {
     const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
-      // Generate headers with the proper Authorization bearer token to pass.
-      // We are using the `authorizationHeaders()` helper method we defined
-      // earlier, to automatically attach the user's ID token.
       headers: user.authorizationHeaders(),
     });
     if (!res.ok) {
-      throw new Error(`${res.status} ${res.statusText}`);
+      throw new Error(`${res.status} with ${res.statusText}`);
     }
     const data = await res.json();
     console.log('Successfully got user fragment data', { data });
@@ -60,12 +54,8 @@ export async function postUserFragment(user: User, text: string) {
       body: text,
     });
     console.log(res);
-    for (const pair of res.headers.entries()) {
-      // accessing the entries
-      console.log(pair);
-    }
-    const l = res.headers.get('Location');
-    console.log({ l });
+
+    //const location = res.headers.get('Location');
 
     const resp = await res.json();
     return resp;
