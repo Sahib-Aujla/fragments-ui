@@ -25,7 +25,6 @@ export default function Home({
       const user = await getUser();
       if (user) {
         const userFragments = await getUserFragments(user);
-        console.log(userFragments);
         if (userFragments) {
           setFragments(userFragments.fragments);
         }
