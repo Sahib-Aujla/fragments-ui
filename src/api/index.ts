@@ -35,9 +35,9 @@ export async function getOneFragment(user: User, id: string) {
     if (!res.ok) {
       throw new Error(`${res.status} with ${res.statusText}`);
     }
-    const data = await res.json();
-    console.log('Successfully got user fragment data', { data });
-    return data;
+    const data=await res.text();
+    console.log('Successfully got user fragment data for '+id, { data });
+    return {id,data};
   } catch (err) {
     console.error('Unable to call GET /v1/fragment', { err });
   }
