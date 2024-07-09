@@ -13,7 +13,7 @@ const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 export async function getUserFragments(user: User) {
   console.log('Requesting user fragments data...');
   try {
-    const res = await fetch(`${apiUrl}/v1/fragments/?expand=0`, {
+    const res = await fetch(`${apiUrl}/v1/fragments/?expand=1`, {
       headers: user.authorizationHeaders(),
     });
     if (!res.ok) {
@@ -35,21 +35,38 @@ export async function getOneFragment(user: User, id: string) {
     if (!res.ok) {
       throw new Error(`${res.status} with ${res.statusText}`);
     }
-    const data=await res.text();
-    console.log('Successfully got user fragment data for '+id, { data });
-    return {id,data};
+    const data = await res.text();
+    console.log('Successfully got user fragment data for ' + id, { data });
+    return { id, data };
   } catch (err) {
     console.error('Unable to call GET /v1/fragment', { err });
   }
 }
 
-export async function postUserFragment(user: User, text: string) {
+export async function getOneFragmentMetaData(user: User, id: string) {
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}/info`, {
+      headers: user.authorizationHeaders(),
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} with ${res.statusText}`);
+    }
+
+    const data = await res.json();
+    console.log({ data });
+    return data;
+  } catch (err) {
+    console.error('Unable to call GET /v1/fragment', { err });
+  }
+}
+
+export async function postUserFragment(user: User, text: string, type?: string) {
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       method: 'POST',
       headers: {
         ...user.authorizationHeaders(),
-        'Content-Type': 'text/plain',
+        'Content-Type': type || 'text/plain',
       },
       body: text,
     });
