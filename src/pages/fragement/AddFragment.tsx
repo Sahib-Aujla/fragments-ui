@@ -17,7 +17,7 @@ const AddFragment = () => {
     if (user) {
       const formData = new FormData();
       formData.append('type', type);
-      if (file) {
+      if (file && type.startsWith('image')) {
         formData.append('file', file);
       } else {
         formData.append('text', text);
@@ -64,7 +64,7 @@ const AddFragment = () => {
           <option value="application/x-yaml">YAML</option>
           <option value="image/*">Image</option>
         </select>
-        {type === 'image/*' ? (
+        {type.startsWith('image/') ? (
           <input type="file" onChange={handleFile} style={{ width: '10rem', height: '5rem' }} />
         ) : (
           <textarea

@@ -92,7 +92,7 @@ const DetailFragment = () => {
         <button style={{ color: 'red' }} onClick={handleDelete}>
           Delete
         </button>
-        <button onClick={() => navigate('/')}>Update</button>
+        <button onClick={() => navigate(`/update/${id}`)}>Update</button>
       </div>
       <ToastContainer />
     </>

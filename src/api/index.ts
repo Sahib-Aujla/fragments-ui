@@ -82,8 +82,6 @@ export async function postUserFragment(user: User, formData: FormData) {
     });
     console.log(res);
 
-    //const location = res.headers.get('Location');
-
     const resp = await res.json();
     return resp;
   } catch (error) {
