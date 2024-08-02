@@ -50,7 +50,7 @@ const AddFragment = () => {
   return (
     <div>
       <h2>Add a Fragment</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '5' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '5',width: '40rem', height: '40rem' }}>
         <select
           name="type"
           onChange={(e) => setType(e.target.value)}
@@ -65,7 +65,7 @@ const AddFragment = () => {
           <option value="image/*">Image</option>
         </select>
         {type.startsWith('image/') ? (
-          <input type="file" onChange={handleFile} style={{ width: '10rem', height: '5rem' }} />
+          <input type="file" onChange={handleFile} style={{ width: '20rem', height: '5rem' }} />
         ) : (
           <textarea
             name="textData"

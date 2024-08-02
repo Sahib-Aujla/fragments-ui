@@ -104,3 +104,32 @@ export async function deletePost(user: User, id: string) {
     return false;
   }
 }
+
+
+
+
+export async function updateUserFragment(user: User,id:string, formData: FormData) {
+  try {
+    const data: { [key: string]: string | File } = {};
+    formData.forEach((value, key) => {
+      console.log(`key ${key}, value ${value}`);
+      data[key] = value;
+    });
+
+    console.log(data);
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+      method: 'PUT',
+      headers: {
+        ...user.authorizationHeaders(),
+        'Content-Type': String(data?.type),
+      },
+      body: data.file ? data.file : data.text,
+    });
+    console.log(res);
+
+    const resp = await res.json();
+    return resp;
+  } catch (error) {
+    console.error('Unable to call Post v1/fragments', { error });
+  }
+}
