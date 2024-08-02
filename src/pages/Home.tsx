@@ -66,11 +66,23 @@ export default function Home({ isPassedToWithAuthenticator, signOut, user }: Pro
                 margin: '1rem',
               }}
             >
-              <p>Fragment Id: {fragment.id}</p>
-              <p>Type: {fragment.type}</p>
-              <p>Size: {fragment.size}</p>
-              <p>Created: {new Date(fragment.created).toLocaleString()}</p>
-              <p>Updated: {new Date(fragment.updated).toLocaleString()}</p>
+              <p>
+                <strong>Fragment Id:</strong> {fragment.id}
+              </p>
+              <p>
+                <strong>Type:</strong>
+                {fragment.type}
+              </p>
+              <p>
+                <strong>Size: </strong>
+                {fragment.size}
+              </p>
+              <p>
+                <strong>Created:</strong> {new Date(fragment.created).toLocaleString()}
+              </p>
+              <p>
+                <strong>Updated:</strong> {new Date(fragment.updated).toLocaleString()}
+              </p>
 
               <button onClick={() => navigate('/details/' + fragment.id)}>Details</button>
             </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getOneFragment, getOneFragmentMetaData } from '../../api';
+import { deletePost, getOneFragment, getOneFragmentMetaData } from '../../api';
 import { getUser } from '../../auth';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Fragment {
   id: string;
@@ -32,6 +33,24 @@ const DetailFragment = () => {
     }
     getFragment();
   }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      const user = await getUser();
+      if (user && id) {
+        const res = await deletePost(user, id);
+        if (res === true) {
+          toast.success('Success Notification!', {
+            position: 'top-right',
+          });
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          navigate('/');
+        }
+      }
+    } catch (error) {
+      console.log('unable to delete fragment');
+    }
+  };
   return (
     <>
       <div style={{ margin: '2rem' }}>
@@ -60,9 +79,22 @@ const DetailFragment = () => {
         )}
       </div>
 
-      <div style={{ margin: '2rem' }}>
+      <div
+        style={{
+          margin: '2rem',
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+        }}
+      >
         <button onClick={() => navigate('/')}>Home Page</button>
+        <button style={{ color: 'red' }} onClick={handleDelete}>
+          Delete
+        </button>
+        <button onClick={() => navigate('/')}>Update</button>
       </div>
+      <ToastContainer />
     </>
   );
 };

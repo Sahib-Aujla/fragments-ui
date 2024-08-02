@@ -90,3 +90,19 @@ export async function postUserFragment(user: User, formData: FormData) {
     console.error('Unable to call Post v1/fragments', { error });
   }
 }
+
+export async function deletePost(user: User, id: string) {
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+      method: 'DELETE',
+      headers: user.authorizationHeaders(),
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} with ${res.statusText}`);
+    }
+    return true;
+  } catch (error) {
+    console.error('Unable to call Delete v1/fragments', { error });
+    return false;
+  }
+}
