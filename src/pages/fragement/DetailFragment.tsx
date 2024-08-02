@@ -14,7 +14,7 @@ interface Fragment {
 const DetailFragment = () => {
   const { id } = useParams();
   const [fragment, setFragment] = useState<Fragment>();
-  const [fragmentData, setFragmentData] = useState<{ id: string; data: string }>();
+  const [fragmentData, setFragmentData] = useState<string | Blob>();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -24,8 +24,10 @@ const DetailFragment = () => {
         const res = await getOneFragment(user, id);
         const res2 = await getOneFragmentMetaData(user, id);
         console.log(res2);
+        console.log({ res });
+
         setFragment(res2);
-        setFragmentData(res);
+        setFragmentData(res?.data);
       }
     }
     getFragment();
@@ -43,7 +45,17 @@ const DetailFragment = () => {
             <p>Fragment Updated : {new Date(fragment.updated).toLocaleString()}</p>
 
             <hr />
-            <p>Fragment data: {fragmentData?.data}</p>
+
+            {fragment.type.startsWith('image/') ? (
+              <img
+                src={URL.createObjectURL(
+                  new Blob([fragmentData as unknown as Blob], { type: fragment.type })
+                )}
+                alt="Fragment"
+              />
+            ) : (
+              <p>Fragment data: {String(fragmentData)}</p>
+            )}
           </>
         )}
       </div>

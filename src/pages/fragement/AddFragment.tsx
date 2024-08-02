@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 const AddFragment = () => {
   const [text, setText] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('text/plain');
+  const [file, setFile] = useState<File>();
 
   const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent) => {
@@ -14,7 +15,15 @@ const AddFragment = () => {
 
     const user = await getUser();
     if (user) {
-      const res = await postUserFragment(user, text, type);
+      const formData = new FormData();
+      formData.append('type', type);
+      if (file) {
+        formData.append('file', file);
+      } else {
+        formData.append('text', text);
+      }
+
+      const res = await postUserFragment(user, formData);
       console.log({ res });
       toast.success('Success Notification!', {
         position: 'top-right',
@@ -27,6 +36,16 @@ const AddFragment = () => {
       });
     }
   };
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e?.target?.files[0]) {
+      const selectedFile = e?.target?.files[0] || null;
+      if (selectedFile) {
+        setFile(selectedFile);
+
+        setType(selectedFile.type);
+      }
+    }
+  }
 
   return (
     <div>
@@ -43,17 +62,20 @@ const AddFragment = () => {
           <option value="text/csv">CSV</option>
           <option value="application/json">JSON</option>
           <option value="application/x-yaml">YAML</option>
+          <option value="image/*">Image</option>
         </select>
-
-        <textarea
-          name="textData"
-          rows={20}
-          cols={100}
-          style={{ padding: '1rem' }}
-          placeholder="Please enter the text fragment"
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}
-          required={true}
-        />
+        {type === 'image/*' ? (
+          <input type="file" onChange={handleFile} style={{ width: '10rem', height: '5rem' }} />
+        ) : (
+          <textarea
+            name="textData"
+            rows={20}
+            cols={100}
+            style={{ padding: '1rem' }}
+            placeholder="Please enter the text fragment"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}
+          />
+        )}
         <button style={{ margin: '2rem' }} type="submit">
           Add Fragment
         </button>

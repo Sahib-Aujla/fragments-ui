@@ -35,7 +35,10 @@ export async function getOneFragment(user: User, id: string) {
     if (!res.ok) {
       throw new Error(`${res.status} with ${res.statusText}`);
     }
-    const data = await res.text();
+    const contentType = res.headers.get('Content-Type');
+    const data =
+      contentType && contentType.startsWith('image/') ? await res.blob() : await res.text();
+    //const data=res
     console.log('Successfully got user fragment data for ' + id, { data });
     return { id, data };
   } catch (err) {
@@ -60,15 +63,22 @@ export async function getOneFragmentMetaData(user: User, id: string) {
   }
 }
 
-export async function postUserFragment(user: User, text: string, type?: string) {
+export async function postUserFragment(user: User, formData: FormData) {
   try {
+    const data: { [key: string]: string | File } = {};
+    formData.forEach((value, key) => {
+      console.log(`key ${key}, value ${value}`);
+      data[key] = value;
+    });
+
+    console.log(data);
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       method: 'POST',
       headers: {
         ...user.authorizationHeaders(),
-        'Content-Type': type || 'text/plain',
+        'Content-Type': String(data?.type),
       },
-      body: text,
+      body: data.file ? data.file : data.text,
     });
     console.log(res);
 
