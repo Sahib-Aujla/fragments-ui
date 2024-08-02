@@ -56,7 +56,7 @@ export default function Home({ isPassedToWithAuthenticator, signOut, user }: Pro
       <h2>Existing Fragments</h2>
       {fragments.length > 0 ? (
         fragments?.map((fragment, i) => (
-          <>
+          <div key={i}>
             <div
               key={i}
               style={{
@@ -87,7 +87,7 @@ export default function Home({ isPassedToWithAuthenticator, signOut, user }: Pro
               <button onClick={() => navigate('/details/' + fragment.id)}>Details</button>
             </div>
             <hr />
-          </>
+          </div>
         ))
       ) : (
         <p>No existing fragments found.</p>

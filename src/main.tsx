@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AddFragment from './pages/fragement/AddFragment.tsx';
 import DetailFragment from './pages/fragement/DetailFragment.tsx';
 import UpdateFragment from './pages/fragement/UpdateFragment.tsx';
+import Convert from './pages/fragement/Convert.tsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/update/:id',
     element: <UpdateFragment />,
+  },
+  {
+    path: '/convert/:id',
+    element: <Convert />,
   },
 ]);
 
