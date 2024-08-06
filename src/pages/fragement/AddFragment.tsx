@@ -50,7 +50,16 @@ const AddFragment = () => {
   return (
     <div>
       <h2>Add a Fragment</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '5',width: '40rem', height: '40rem' }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '5',
+          width: '40rem',
+          height: '40rem',
+        }}
+      >
         <select
           name="type"
           onChange={(e) => setType(e.target.value)}
@@ -80,6 +89,9 @@ const AddFragment = () => {
           Add Fragment
         </button>
       </form>
+      <button style={{ margin: '1rem',width:'50%' }} onClick={() => navigate('/')}>
+        Back
+      </button>
       <ToastContainer />
     </div>
   );

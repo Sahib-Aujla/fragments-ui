@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUser } from '../auth';
 import { getUserFragments } from '../api';
-import { Link } from 'react-router-dom';
 import { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,8 +46,8 @@ export default function Home({ isPassedToWithAuthenticator, signOut, user }: Pro
 
       <hr />
 
-      <button style={{ margin: '2rem 0' }}>
-        <Link to="/addfragment">Add Fragment</Link>
+      <button style={{ margin: '2rem 0' }} onClick={() => navigate('/addfragment')}>
+        Add Fragment
       </button>
 
       <hr />
