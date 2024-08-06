@@ -2,9 +2,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getUser } from '../../auth';
 import { getOneFragment } from '../../api';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { typeState } from '../../state';
 
 const Convert = () => {
   const [fragmentData, setFragmentData] = useState<string | Blob>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [gType, setGType] = useRecoilState(typeState);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -23,26 +27,26 @@ const Convert = () => {
   }, [id]);
   return (
     <div>
-      <h1>Converted Data</h1>
+      <h1>Converted Data to {gType}</h1>
       <h2>Fragment id: {id}</h2>
       <hr />
-      <p>Fragment data: {String(fragmentData)}</p>
-      {/* {fragment.type.startsWith('image/') ? (
+      {/* <p>Fragment data: {String(fragmentData)}</p> */}
+      {gType.startsWith('image/') ? (
         <img
-          src={URL.createObjectURL(
-            new Blob([fragmentData as unknown as Blob], { type: fragment.type })
-          )}
+          src={URL.createObjectURL(new Blob([fragmentData as unknown as Blob], { type: gType }))}
           alt="Fragment"
         />
       ) : (
         <p>Fragment data: {String(fragmentData)}</p>
-      )} */}
+      )}
 
       <button
         onClick={() => {
           navigate(`/details/${id?.split('.')[0]}`);
         }}
-      >Back</button>
+      >
+        Back
+      </button>
     </div>
   );
 };

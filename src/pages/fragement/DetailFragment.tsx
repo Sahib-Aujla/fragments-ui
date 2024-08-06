@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { deletePost, getOneFragment, getOneFragmentMetaData } from '../../api';
 import { getUser } from '../../auth';
 import { toast, ToastContainer } from 'react-toastify';
+import { typeState } from '../../state';
+import { useRecoilState } from 'recoil';
 
 interface Fragment {
   id: string;
@@ -46,6 +48,7 @@ const DetailFragment = () => {
   const [fragmentData, setFragmentData] = useState<string | Blob>();
   const [type, setType] = useState('');
   const [conversion, setConversion] = useState('text/plain');
+  const [gType, setGType] = useRecoilState(typeState);
   const navigate = useNavigate();
   useEffect(() => {
     async function getFragment() {
@@ -116,6 +119,8 @@ const DetailFragment = () => {
             e.preventDefault();
             if (type) {
               const ext = mType[type];
+              setGType(type);
+              console.log(gType)
               navigate(`/convert/${id}.${ext}`);
             }
           }}
@@ -132,7 +137,9 @@ const DetailFragment = () => {
             style={{ margin: '1rem 0.5rem', padding: '1rem', width: '80%' }}
           >
             {validConversions[conversion].map((val) => (
-              <option key={val} value={val}>{val}</option>
+              <option key={val} value={val}>
+                {val}
+              </option>
             ))}
           </select>
           <button style={{ margin: '1rem 0' }} type="submit">
